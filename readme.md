@@ -1,12 +1,17 @@
-# Instalação
-1. clone o repositório
-2. aceda à pasta onde está o repositório através do cmd do windows
-3. execute os seguintes comandos:
-- Crie o ambiente virtual 
-<code>python -m venv .venv</code>
+# Oficina EPG - Django Python
 
-- Ative o ambiente virtual
-<code>.venv\Scripts\activate</code>
+Este projecto foi desenvolvido no ambiente da aula TLP com o professor André Meira.
 
-- Instale as bibliotecas presentes no ficheiro requirements.txt
-<code>pip install -r requirements.txt</code>
+## Setup
+
+Para começar a desenvolver, segue o [SETUP.md](./SETUP.md) passo a passo.
+
+## Licença
+
+Este projecto está licenciado sob a [MIT License](./LICENSE).
+
+## Autores
+
+- Fábio
+- Henryson
+- João

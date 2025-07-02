@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidor, MaxValueValidor
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Profile(models.Model):
     user_image = models.ImageField(null=True, blank=True)
