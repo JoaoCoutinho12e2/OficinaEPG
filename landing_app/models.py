@@ -17,4 +17,4 @@ class Profile(models.Model):
 
 class skills(models.Model):
     name = models.CharField(verbose_name="Nome", max_length=50)
-    percentagem = models.IntegerField(verbose_name="Percentagem", default=1, validators= [MinValueValidor(1), MaxValueValidor(100)])
+    percentagem = models.IntegerField(verbose_name="Percentagem", default=1, validators= [MinValueValidator(1), MaxValueValidator(100)])
