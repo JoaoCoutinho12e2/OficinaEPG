@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.dashboard_home, name='dashboard_home'),
     path('precos/', views.dashboard_precos, name='dashboard_precos'),
     path('servicos/', views.dashboard_servicos, name='dashboard_servicos'),
+    path('dashboard/add-servico/', views.add_servico, name='add_servico'),
 ]

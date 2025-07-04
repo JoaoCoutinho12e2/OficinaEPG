@@ -583,42 +583,26 @@
 
             <ul class="navbar-nav-custom ms-auto" id="navbarNav">
                 {% if user.is_authenticated %}
-                    <!-- Admin Dropdown -->
-                    <li class="nav-item-custom dropdown-custom" id="adminDropdown">
-                        <a class="nav-link-custom dropdown-toggle-custom" href="#" role="button" aria-expanded="false">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu-custom">
-                            <li>
-                                <a class="dropdown-item-custom" href="{% url 'dashboard_home' %}">
-                                    <i class="fas fa-home"></i>
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item-custom" href="{% url 'dashboard_precos' %}">
-                                    <i class="fas fa-euro-sign"></i>
-                                    Preços
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item-custom" href="{% url 'dashboard_servicos' %}">
-                                    <i class="fas fa-wrench"></i>
-                                    Serviços
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- User Menu -->
+                    {% if user.role.nome == 'admin' %}
+                        <!-- Admin Dropdown -->
+                        <li class="nav-item-custom dropdown-custom" id="adminDropdown">
+                            <a class="nav-link-custom dropdown-toggle-custom" href="#" role="button" aria-expanded="false">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu-custom">
+                                <li><a class="dropdown-item-custom" href="{% url 'dashboard_home' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+                                <li><a class="dropdown-item-custom" href="{% url 'dashboard_precos' %}"><i class="fas fa-euro-sign"></i> Preços</a></li>
+                                <li><a class="dropdown-item-custom" href="{% url 'dashboard_servicos' %}"><i class="fas fa-wrench"></i> Serviços</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
                     <li class="nav-item-custom">
                         <a class="nav-link-custom" href="#">
                             <i class="fas fa-user-circle"></i>
                             {{ user.first_name|default:user.username }}
                         </a>
                     </li>
-                    
                     <li class="nav-item-custom">
                         <a class="btn-nav-secondary" href="{% url 'logout' %}">
                             <i class="fas fa-sign-out-alt me-1"></i>

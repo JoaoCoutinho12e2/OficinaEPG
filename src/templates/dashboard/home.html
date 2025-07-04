@@ -1,0 +1,86 @@
+<!-- templates/dashboard/dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Oficina EPG{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Dashboard</h1>
+
+    <a href="{% url 'add_servico' %}" class="btn btn-primary mb-3">Adicionar Serviço</a>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Utilizadores</h5>
+                    <p class="card-text">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Serviços</h5>
+                    <p class="card-text">{{ total_servicos }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Appointments -->
+    <h2 class="mb-3">Agendamentos Recentes</h2>
+    <ul class="list-group mb-4">
+        {% for agendamento in recent_agendamentos %}
+        <li class="list-group-item">
+            {{ agendamento.nome_cliente }} - {{ agendamento.servico.nome }} - {{ agendamento.data_hora|date:"d/m/Y H:i" }}
+        </li>
+        {% empty %}
+        <li class="list-group-item">Nenhum agendamento recente.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Paginated Users -->
+    <h2 class="mb-3">Utilizadores</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in page_obj %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role.nome }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">Nenhum utilizador encontrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="User pagination">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; Primeira</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

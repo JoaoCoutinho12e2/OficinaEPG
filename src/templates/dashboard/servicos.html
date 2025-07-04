@@ -1,0 +1,28 @@
+<!-- templates/servicos_list.html -->
+{% extends "base.html" %}
+
+{% block title %}Serviços - Oficina EPG{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Nossos Serviços</h1>
+    <div class="row">
+        {% for servico in servicos %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if servico.imagem_url %}
+                <img src="{{ servico.imagem_url }}" class="card-img-top" alt="{{ servico.nome }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ servico.nome }}</h5>
+                    <p class="card-text">{{ servico.descricao }}</p>
+                    <p class="card-text"><strong>Preço: €{{ servico.preco }}</strong></p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Nenhum serviço disponível no momento.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

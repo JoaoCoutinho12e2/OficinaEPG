@@ -1,0 +1,19 @@
+<!-- templates/dashboard/add_servico.html -->
+{% extends "base.html" %}
+
+{% block title %}Adicionar Serviço - Oficina EPG{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Adicionar Serviço</h1>
+    <div class="card login-card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
