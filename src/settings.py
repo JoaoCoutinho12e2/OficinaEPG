@@ -64,7 +64,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'OficinaEPG',
         'USER': 'postgres',
-        'PASSWORD': 'Jcoutinho08#@',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -111,3 +111,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#peixoto
+AUTH_USER_MODEL = 'dashboard.User'

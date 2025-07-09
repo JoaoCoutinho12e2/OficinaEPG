@@ -582,7 +582,6 @@
             </button>
 
             <ul class="navbar-nav-custom ms-auto" id="navbarNav">
-                {% if user.is_authenticated %}
                     {% if user.role.nome == 'admin' %}
                         <!-- Admin Dropdown -->
                         <li class="nav-item-custom dropdown-custom" id="adminDropdown">
@@ -597,32 +596,6 @@
                             </ul>
                         </li>
                     {% endif %}
-                    <li class="nav-item-custom">
-                        <a class="nav-link-custom" href="#">
-                            <i class="fas fa-user-circle"></i>
-                            {{ user.first_name|default:user.username }}
-                        </a>
-                    </li>
-                    <li class="nav-item-custom">
-                        <a class="btn-nav-secondary" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt me-1"></i>
-                            Logout
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="nav-item-custom">
-                        <a class="nav-link-custom" href="{% url 'login' %}">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item-custom">
-                        <a class="btn-nav-primary" href="{% url 'register' %}">
-                            <i class="fas fa-user-plus me-1"></i>
-                            Registar
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
         </div>
     </nav>

@@ -1,13 +1,10 @@
 # dashboard/views.py
-
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from .models import User, Servico, Agendamento
 from django.contrib import messages
 from .forms import ServicoForm
 
-@login_required
 def dashboard_home(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -33,20 +30,19 @@ def dashboard_home(request):
     }
     return render(request, 'dashboard/dashboard.html', context)
 
-@login_required
 def dashboard_precos(request):
     return render(request, 'dashboard/precos.html')
 
-@login_required
+
 def dashboard_servicos(request):
     return render(request, 'dashboard/servicos.html')
 
-@login_required
+
 def servicos_list(request):
     servicos = Servico.objects.all()
     return render(request, 'servicos_list.html', {'servicos': servicos})
 
-@login_required
+
 def add_servico(request):
     if not request.user.is_authenticated or request.user.role.nome != 'admin':
         return redirect('login')
