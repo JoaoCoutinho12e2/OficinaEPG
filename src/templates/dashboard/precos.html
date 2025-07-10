@@ -1,0 +1,346 @@
+{% extends "base.html" %}
+
+{% block title %}Preços dos Serviços - Dashboard - Oficina EPG{% endblock %}
+
+{% block extra_head %}
+<style>
+.dashboard-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.dashboard-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
+}
+
+.section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: #667eea;
+}
+
+.services-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    border-color: #e2e8f0;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+.service-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.service-description {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+.price-badge {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.service-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.no-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #718096;
+    font-size: 1.5rem;
+}
+
+.stats-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #718096;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-action {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+.btn-edit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+    color: white;
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #fc466b, #3f5efb);
+    color: white;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(252, 70, 107, 0.4);
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #718096;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #e2e8f0;
+}
+
+.add-service-btn {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.add-service-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(17, 153, 142, 0.4);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        border-radius: 12px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .service-description {
+        display: none;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-2">Preços dos Serviços</h1>
+            <p class="text-muted mb-0">Gerir preços e informações dos serviços</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'add_servico' %}" class="add-service-btn">
+                <i class="fas fa-plus"></i>
+                Adicionar Serviço
+            </a>
+            <a href="{% url 'dashboard_home' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left"></i>
+                Voltar ao Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="dashboard-card">
+                <div class="stats-card">
+                    <div class="stat-number">{{ total_servicos }}</div>
+                    <div class="stat-label">Total de Serviços</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Table -->
+    <div class="dashboard-card">
+        <div class="card-body p-0">
+            {% if servicos %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Serviço</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for servico in servicos %}
+                                <tr>
+                                    <td>
+                                        {% if servico.imagem_url %}
+                                            <img src="{{ servico.imagem_url }}"
+                                                 alt="{{ servico.nome }}"
+                                                 class="service-image"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="no-image" style="display: none;">
+                                                <i class="fas fa-image"></i>
+                                            </div>
+                                        {% else %}
+                                            <div class="no-image">
+                                                <i class="fas fa-wrench"></i>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="service-name">{{ servico.nome }}</div>
+                                    </td>
+                                    <td>
+                                        {% if servico.descricao %}
+                                            <div class="service-description">
+                                                {{ servico.descricao|truncatewords:15 }}
+                                            </div>
+                                        {% else %}
+                                            <span class="text-muted">Sem descrição</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="price-badge">€{{ servico.preco }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="#" class="btn-action btn-edit">
+                                                <i class="fas fa-edit"></i>
+                                                Editar
+                                            </a>
+                                            <a href="#" class="btn-action btn-delete"
+                                               onclick="return confirm('Tem certeza que deseja eliminar este serviço?')">
+                                                <i class="fas fa-trash"></i>
+                                                Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-tools"></i>
+                    <h4>Nenhum serviço encontrado</h4>
+                    <p>Ainda não foram adicionados serviços ao sistema.</p>
+                    <a href="{% url 'add_servico' %}" class="add-service-btn mt-3">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Primeiro Serviço
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

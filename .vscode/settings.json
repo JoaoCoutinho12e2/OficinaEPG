@@ -1,11 +1,30 @@
 {
+    // Enable linting and specify pylint with Django plugin
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
+    // Enable flake8 as an additional linter for style checks
+    "python.linting.flake8Enabled": true,
+    // Enable mypy for type checking
+    "python.linting.mypyEnabled": true,
+    // Enable isort for import sorting
+    "python.sortImports.args": ["--profile", "black"],
+    // Enable autopep8 for formatting
+    "python.formatting.provider": "autopep8",
+    // Enable Django support in analysis
     "python.analysis.djangoEnabled": true,
     "python.analysis.typeCheckingMode": "basic",
+    // Enable auto import completions
     "python.analysis.autoImportCompletions": true,
+    // Exclude migrations and cache from analysis and linting
+    "python.linting.ignorePatterns": [
+        "**/migrations/**",
+        "**/__pycache__/**"
+    ],
+    // Set default interpreter path if needed (uncomment and set your path)
+    // "python.defaultInterpreterPath": "/usr/local/bin/python3",
+    // CodeGPT API key (if used)
     "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

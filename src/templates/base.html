@@ -582,7 +582,26 @@
             </button>
 
             <ul class="navbar-nav-custom ms-auto" id="navbarNav">
-                    {% if user.role.nome == 'admin' %}
+                <li class="nav-item-custom">
+                    <a class="nav-link-custom" href="{% url 'landing' %}">
+                        <i class="fas fa-home"></i>
+                        Início
+                    </a>
+                </li>
+                <li class="nav-item-custom">
+                    <a class="nav-link-custom" href="{% url 'servicos_list' %}">
+                        <i class="fas fa-cogs"></i>
+                        Serviços
+                    </a>
+                </li>
+                <li class="nav-item-custom">
+                    <a class="nav-link-custom" href="{% url 'contact' %}">
+                        <i class="fas fa-envelope"></i>
+                        Contacto
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
                         <!-- Admin Dropdown -->
                         <li class="nav-item-custom dropdown-custom" id="adminDropdown">
                             <a class="nav-link-custom dropdown-toggle-custom" href="#" role="button" aria-expanded="false">
@@ -593,9 +612,24 @@
                                 <li><a class="dropdown-item-custom" href="{% url 'dashboard_home' %}"><i class="fas fa-home"></i> Dashboard</a></li>
                                 <li><a class="dropdown-item-custom" href="{% url 'dashboard_precos' %}"><i class="fas fa-euro-sign"></i> Preços</a></li>
                                 <li><a class="dropdown-item-custom" href="{% url 'dashboard_servicos' %}"><i class="fas fa-wrench"></i> Serviços</a></li>
+                                <li><a class="dropdown-item-custom" href="{% url 'dashboard_mensagens' %}"><i class="fas fa-envelope"></i> Mensagens</a></li>
                             </ul>
                         </li>
                     {% endif %}
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair ({{ user.username }})
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Entrar
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -623,14 +657,6 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">Oficina EPG</div>
-                
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Sobre Nós</a>
-                    <a href="#" class="footer-link">Serviços</a>
-                    <a href="#" class="footer-link">Contacto</a>
-                    <a href="#" class="footer-link">Termos</a>
-                    <a href="#" class="footer-link">Privacidade</a>
-                </div>
                 
                 <p class="footer-text">
                     © {{ now|date:"Y" }} Oficina EPG. Desenvolvido por Fábio Pinto, Henryson, João.

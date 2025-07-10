@@ -1,29 +1,183 @@
-<!-- templates/dashboard/dashboard.html -->
+<!-- templates/dashboard/home.html -->
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Oficina EPG{% endblock %}
+{% block title %}Dashboard Administrativo - Oficina EPG{% endblock %}
+
+{% block extra_head %}
+<style>
+    .dashboard-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .dashboard-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .quick-actions {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .action-btn {
+        background: var(--primary-gradient);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.25rem;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .section-title {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-title i {
+        color: var(--primary-gradient);
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Dashboard</h1>
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-2">Dashboard Administrativo</h1>
+            <p class="text-muted mb-0">Bem-vindo ao painel de controlo da Oficina EPG</p>
+        </div>
+        <div class="text-end">
+            <small class="text-muted">Último acesso: {{ user.last_login|date:"d/m/Y H:i" }}</small>
+        </div>
+    </div>
 
-    <a href="{% url 'add_servico' %}" class="btn btn-primary mb-3">Adicionar Serviço</a>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <h3 class="section-title">
+            <i class="fas fa-bolt"></i>
+            Ações Rápidas
+        </h3>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'add_servico' %}" class="action-btn">
+                <i class="fas fa-plus"></i>
+                Adicionar Serviço
+            </a>
+            <a href="{% url 'dashboard_servicos' %}" class="action-btn">
+                <i class="fas fa-wrench"></i>
+                Gerir Serviços
+            </a>
+            <a href="{% url 'dashboard_precos' %}" class="action-btn">
+                <i class="fas fa-euro-sign"></i>
+                Gerir Preços
+            </a>
+        </div>
+    </div>
 
-    <!-- Statistics -->
+    <!-- Statistics Cards -->
+    <h3 class="section-title">
+        <i class="fas fa-chart-bar"></i>
+        Estatísticas
+    </h3>
     <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Utilizadores</h5>
-                    <p class="card-text">{{ total_users }}</p>
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="card-body text-center">
+                    <div class="stat-icon mx-auto" style="background: var(--primary-gradient);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">{{ total_users }}</div>
+                    <div class="stat-label">Total Utilizadores</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Serviços</h5>
-                    <p class="card-text">{{ total_servicos }}</p>
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="card-body text-center">
+                    <div class="stat-icon mx-auto" style="background: var(--success-gradient);">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="stat-number">{{ total_servicos }}</div>
+                    <div class="stat-label">Total Serviços</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="card-body text-center">
+                    <div class="stat-icon mx-auto" style="background: var(--accent-gradient);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-number">{{ recent_agendamentos|length }}</div>
+                    <div class="stat-label">Agendamentos Recentes</div>
                 </div>
             </div>
         </div>

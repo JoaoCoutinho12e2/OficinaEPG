@@ -81,6 +81,13 @@ site/
 
 .pyc
 
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
 # Project tools
 .pdm.toml
 .pdm-python

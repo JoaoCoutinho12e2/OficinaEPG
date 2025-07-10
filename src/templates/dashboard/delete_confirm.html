@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h4>Tem certeza que deseja excluir o serviço <strong>{{ servico.nome }}</strong>?</h4>
+        <form method="post">
+            {% csrf_token %}
+            <a href="{% url 'dashboard_servicos' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

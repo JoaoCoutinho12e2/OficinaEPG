@@ -1,0 +1,348 @@
+<!-- templates/core/servicos_list.html -->
+{% extends "base.html" %}
+
+{% block title %}Nossos Serviços - Oficina EPG{% endblock %}
+
+{% block extra_head %}
+<style>
+    .services-hero {
+        background: linear-gradient(135deg, var(--primary-gradient), var(--secondary-gradient));
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .services-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.3;
+    }
+
+    .services-hero .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .service-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        height: 100%;
+        position: relative;
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(31, 38, 135, 0.25);
+    }
+
+    .service-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .service-image-placeholder {
+        width: 100%;
+        height: 200px;
+        background: var(--accent-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .service-title {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+    }
+
+    .service-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .service-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .service-cta {
+        background: var(--primary-gradient);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .service-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .services-stats {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: block;
+    }
+
+    .stats-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+    }
+
+    .pagination-custom {
+        margin-top: 3rem;
+    }
+
+    .pagination-custom .page-link {
+        border: none;
+        background: transparent;
+        color: var(--text-primary);
+        padding: 0.75rem 1rem;
+        margin: 0 0.25rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination-custom .page-link:hover {
+        background: var(--primary-gradient);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .pagination-custom .page-item.active .page-link {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .section-title {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .section-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+        .services-hero {
+            padding: 2rem 0;
+        }
+        
+        .service-card {
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="services-hero">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-cogs me-3"></i>
+                    Nossos Serviços
+                </h1>
+                <p class="lead mb-0">
+                    Oferecemos uma gama completa de serviços automotivos com qualidade e confiança
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<div class="container">
+    <div class="services-stats">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <span class="stats-number">{{ total_servicos }}</span>
+                <div class="stats-label">Serviços Disponíveis</div>
+            </div>
+            <div class="col-md-4 text-center">
+                <span class="stats-number">15+</span>
+                <div class="stats-label">Anos de Experiência</div>
+            </div>
+            <div class="col-md-4 text-center">
+                <span class="stats-number">1000+</span>
+                <div class="stats-label">Clientes Satisfeitos</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="section-title">Explore Nossos Serviços</div>
+    <div class="section-subtitle">
+        Cada serviço é realizado por profissionais qualificados com equipamentos modernos
+    </div>
+
+    {% if page_obj %}
+        <div class="row">
+            {% for servico in page_obj %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    {% if servico.imagem_url %}
+                        <img src="{{ servico.imagem_url }}" alt="{{ servico.nome }}" class="service-image" 
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="service-image-placeholder" style="display: none;">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                    {% else %}
+                        <div class="service-image-placeholder">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="card-body p-4">
+                        <h3 class="service-title">{{ servico.nome }}</h3>
+                        
+                        {% if servico.descricao %}
+                            <p class="service-description">{{ servico.descricao }}</p>
+                        {% else %}
+                            <p class="service-description text-muted">
+                                Serviço profissional realizado com qualidade e garantia.
+                            </p>
+                        {% endif %}
+                        
+                        <div class="service-price">€{{ servico.preco }}</div>
+                        
+                        <a href="#" class="service-cta" onclick="alert('Para agendar este serviço, entre em contacto connosco!')">
+                            <i class="fas fa-calendar-plus"></i>
+                            Agendar Serviço
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Navegação de serviços" class="pagination-custom">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Primeira página">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Página anterior">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próxima página">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última página">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-tools fa-4x text-muted mb-4"></i>
+            <h3 class="text-muted">Nenhum serviço disponível</h3>
+            <p class="text-muted">Em breve teremos novos serviços disponíveis.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

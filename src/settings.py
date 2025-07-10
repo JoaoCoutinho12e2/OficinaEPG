@@ -64,7 +64,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'OficinaEPG',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': 'Jcoutinho08#@',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -112,5 +112,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#peixoto
 AUTH_USER_MODEL = 'dashboard.User'
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = 'Oficina EPG <noreply@oficinaepg.com>'
+
+# Contact form email settings
+CONTACT_EMAIL = 'gaia71350@gmail.com'
